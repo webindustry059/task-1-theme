@@ -38,24 +38,8 @@ main{
 }
 
 
-/* to set multi level dropdowns*/
+/* column align */
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 0.125rem;
-}
-
-.dropdown-submenu {
-    position: relative;
-}
-
-.dropdown-submenu > .dropdown-menu {
-    top: 0;
-    left: 100%; /* Position submenus to the right */
-    margin-left: 0.125rem;
-}
 .task-url{
     display: flex;
     flex-direction: column;

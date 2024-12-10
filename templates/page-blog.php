@@ -20,23 +20,7 @@ get_header(); ?>
                 $the_query->the_post();
                 ?>
                 <div class="col-md-4 col-6">
-                    <div class="card">
-                        <div class="card-title text-center">
-                            <?php the_title('<h2>', '</h2>'); ?>
-                        </div>
-                        <div class="card-body">
-                            <div class="task-dates">
-                                <strong><?php echo esc_html__('Date (From - To):','task_1_td'); ?></strong>
-                                <p><?php echo get_post_meta(get_the_ID(), 'start_date', true); ?>
-                                    - <?php echo get_post_meta(get_the_ID(), 'end_date', true); ?></p>
-                            </div>
-                            <div class="task-url">
-                               <strong><?php echo esc_html__('Project Url:','task_1_td'); ?></strong>
-                               <a href="<?php echo esc_url(get_post_meta(get_the_ID(), 'project_url', true)); ?>"><?php echo get_post_meta(get_the_ID(), 'project_url', true); ?></a>
-                            </div>
-                            <a href="<?php the_permalink();?>" class="btn btn-info mt-2"> <?php echo esc_html__('View Project','task_1_td'); ?></a>
-                        </div>
-                    </div>
+                    <?php get_template_part('templates/single-project-post-content'); ?>
                 </div>
             <?php endwhile; ?>
         </div>

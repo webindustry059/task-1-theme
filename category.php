@@ -1,8 +1,8 @@
+<!--category template-->
 <?php
-/* Template Name: Archive */
 get_header(); ?>
 <main>
-    <h1 class="h1 text-center">  <?php echo esc_html__('Archive page','task_1_td'); ?></h1>
+    <h1 class="h1 text-center">  <?php echo esc_html__(single_cat_title(),'task_1_td'); ?></h1>
     <?php
     if (have_posts()) :
         ?>
@@ -29,7 +29,7 @@ get_header(); ?>
         <?php wp_reset_postdata(); ?>
 
     <?php else : ?>
-        <p><?php echo esc_html__('Sorry, no content is available','task_1_td');  ?></p>
+        <p><?php echo esc_html__('Sorry, no posts are available to this category','task_1_td');  ?></p>
     <?php endif; ?>
 </main>
 <?php get_footer(); ?>

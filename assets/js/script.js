@@ -1,20 +1,5 @@
 jQuery(document).ready(function ($) {
 
-    $('.dropdown-submenu').on('mouseenter', function () {
-        var $submenu = $(this).children('.dropdown-menu');
-        if ($submenu.length) {
-            $submenu.addClass('show');
-        }
-    });
-
-    $('.dropdown-submenu').on('mouseleave', function () {
-        var $submenu = $(this).children('.dropdown-menu');
-        if ($submenu.length) {
-            $submenu.removeClass('show');
-        }
-    });
-
-
     $(document).on('click', '.search_projects', function () {
         // Get the start and end dates from the form
         var start_date = $('input[name="start_date"]').val();
@@ -36,30 +21,37 @@ jQuery(document).ready(function ($) {
                 nonce:search_projects_obj.nonce
             },
             beforeSend: function () {
-                // You can add a loading spinner or message here
+                // loading text
                 $('.search_project_div').append('<div class="loading">Loading...</div>');
             },
             success: function (response) {
-                // Remove the loading spinner
+                // Remove the loading text
                 $('.loading').remove();
 
                 if (response.success) {
                     var projects = response.data;
                     var resultsDiv = $('.filtered_projects');
                     resultsDiv.empty();
+                    console.log(response.data);
 
-                    if (projects.length > 0) {
-                        $.each(projects, function (index, project) {
-                            resultsDiv.append(
-                                '<div class="col-md-3 col-6"><div class="card"><div class="card-title text-center"><h2>' + project.title + '</h2></div>' +
-                                '<div class="card-body"><div class="task-dates"><strong>Date (From -To)</strong><p>' + project.start_date + ' - ' + project.end_date +
-                                '</p></div><div class="task-url"><strong>URL</strong><a href="' + project.project_url + '">' + project.project_url + '</a></div>' +
-                                '<a href="' + project.post_url + '" class="btn btn-info"> View Project</a></div></div></div>'
-                            );
-                        });
-                    } else {
-                        resultsDiv.append('<p>No projects found.</p>');
+                    if(response.data != ''){
+                        resultsDiv.append(response.data);
+                    }else{
+                         resultsDiv.append('<p>No projects found.</p>');
                     }
+
+                    // if (projects.length > 0) {
+                    //     $.each(projects, function (index, project) {
+                    //         resultsDiv.append(
+                    //             '<div class="col-md-3 col-6"><div class="card"><div class="card-title text-center"><h2>' + project.title + '</h2></div>' +
+                    //             '<div class="card-body"><div class="task-dates"><strong>Date (From -To)</strong><p>' + project.start_date + ' - ' + project.end_date +
+                    //             '</p></div><div class="task-url"><strong>URL</strong><a href="' + project.project_url + '">' + project.project_url + '</a></div>' +
+                    //             '<a href="' + project.post_url + '" class="btn btn-info mt-2"> View Project</a></div></div></div>'
+                    //         );
+                    //     });
+                    // } else {
+                    //     resultsDiv.append('<p>No projects found.</p>');
+                    // }
                 } else {
                     alert('Error: ' + response.data);
                 }

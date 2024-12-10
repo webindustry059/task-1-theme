@@ -8,12 +8,12 @@ function front_css()
 
 add_action('wp_enqueue_scripts', 'front_css');
 
-function restore_admin_styles() {
+function restore_admin_styles()
+{
     wp_enqueue_style('admin-css', get_template_directory_uri() . '/assets/css/admin.css');
 }
+
 add_action('admin_enqueue_scripts', 'restore_admin_styles');
-
-
 
 
 //Enqueue JS in front and backend
@@ -22,7 +22,7 @@ function enqueue_script_js_file()
 
     wp_register_script(
         'task-1-script',
-        get_template_directory_uri() . '/assets/js/script.js',         array('jquery'),
+        get_template_directory_uri() . '/assets/js/script.js', array('jquery'),
         '1.0.0',
         true
     );
@@ -106,31 +106,33 @@ function project_fields_callback($post)
     $end_date = get_post_meta($post->ID, 'end_date', true);
     $project_url = get_post_meta($post->ID, 'project_url', true);
 
-    wp_nonce_field('projects_nonce_action','projects_nonce_field');
+    wp_nonce_field('projects_nonce_action', 'projects_nonce_field');
 
     ?>
-        <div class="row">
-            <div class="col-12 col-md-8">
-                    <label class="label" for="start_date"><strong><?php echo esc_html__('Start Date:','task_1_td'); ?></strong></label>
-                    <input type="date" name="start_date" class="form-control" value="<?php echo esc_attr($start_date); ?>">
-            </div>
-            <div class="col-12 col-md-8 mt-2">
-                    <label class="label" for="end_date"><strong><?php echo esc_html__('End Date:','task_1_td'); ?></strong></label>
-                    <input type="date" name="end_date" class="form-control" value="<?php echo esc_attr($end_date); ?>">
-            </div>
-            <div class="col-12 col-md-8 mt-2">
-                <label class="label" for="project_url"><strong><?php echo esc_html__('Project Url:','task_1_td'); ?></strong></label>
-                <input type="url" name="project_url" class="form-control" value="<?php echo esc_url($project_url); ?>">
-            </div>
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <label class="label" for="start_date"><strong><?php echo esc_html__('Start Date:', 'task_1_td'); ?></strong></label>
+            <input type="date" name="start_date" class="form-control" value="<?php echo esc_attr($start_date); ?>">
         </div>
+        <div class="col-12 col-md-8 mt-2">
+            <label class="label"
+                   for="end_date"><strong><?php echo esc_html__('End Date:', 'task_1_td'); ?></strong></label>
+            <input type="date" name="end_date" class="form-control" value="<?php echo esc_attr($end_date); ?>">
+        </div>
+        <div class="col-12 col-md-8 mt-2">
+            <label class="label"
+                   for="project_url"><strong><?php echo esc_html__('Project Url:', 'task_1_td'); ?></strong></label>
+            <input type="url" name="project_url" class="form-control" value="<?php echo esc_url($project_url); ?>">
+        </div>
+    </div>
     <?php
 }
 
 function save_project_meta($post_id)
 {
-    $projects_nonce_field=isset($_POST['projects_nonce_field']) ? sanitize_text_field(wp_unslash($_POST['projects_nonce_field'])) : '';
+    $projects_nonce_field = isset($_POST['projects_nonce_field']) ? sanitize_text_field(wp_unslash($_POST['projects_nonce_field'])) : '';
 
-    if(isset($_POST['projects_nonce_field']) && !wp_verify_nonce($projects_nonce_field,'projects_nonce_action')){
+    if (isset($_POST['projects_nonce_field']) && !wp_verify_nonce($projects_nonce_field, 'projects_nonce_action')) {
         wp_die('Security Voilated');
     }
 
@@ -161,13 +163,14 @@ add_action('init', 'theme_header_menu');
 
 //Added Projects archive page in nav menu
 
-function add_projects_archive_menu_item($items, $args) {
+function add_projects_archive_menu_item($items, $args)
+{
     if ($args->theme_location == 'header-menu') { // Replace 'primary' with your menu location
 
         // Add a custom item for the Projects archive
         $archive_item = new stdClass();
         $archive_item->ID = 0;
-         $archive_item->db_id = 0;
+        $archive_item->db_id = 0;
         $archive_item->title = esc_html__('All Projects', 'task_1_td');
         $archive_item->url = get_post_type_archive_link('projects');
         $archive_item->menu_order = count($items) + 1;
@@ -183,8 +186,8 @@ function add_projects_archive_menu_item($items, $args) {
 
     return $items;
 }
-add_filter('wp_nav_menu_objects', 'add_projects_archive_menu_item', 10, 2);
 
+add_filter('wp_nav_menu_objects', 'add_projects_archive_menu_item', 10, 2);
 
 
 //enqueue bootstrap
@@ -199,7 +202,6 @@ if (!function_exists('task_1_enqueue_bootstrap_function')):
 endif;
 add_action('wp_enqueue_scripts', 'task_1_enqueue_bootstrap_function');
 add_action('admin_enqueue_scripts', 'task_1_enqueue_bootstrap_function');
-
 
 
 //REST API to Fetch posts of post_type projects
@@ -243,18 +245,18 @@ function get_projects_data($request)
 }
 
 
-
 //AJAX Call Back to filter Projects based on dates
 
 add_action('wp_ajax_search_projects', 'search_projects_callback');
 add_action('wp_ajax_nopriv_search_projects', 'search_projects_callback');
 
-function search_projects_callback() {
+function search_projects_callback()
+{
 
-    $nonce=isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
 
     // Verify Nonce
-    if (isset($_POST['nonce']) && !wp_verify_nonce($nonce,'search_projects_nonce')) {
+    if (isset($_POST['nonce']) && !wp_verify_nonce($nonce, 'search_projects_nonce')) {
         wp_send_json_error('Security Voilated');
     }
 // Verify that the required parameters are present
@@ -288,24 +290,25 @@ function search_projects_callback() {
 
     $query = new WP_Query($args);
     $projects = array();
-
+    $output = '';
     if ($query->have_posts()) {
+        ob_start();
         while ($query->have_posts()) {
             $query->the_post();
-            $projects[] = array(
-                'title' => get_the_title(),
-                'post_url' => get_permalink(),
-                'project_url' => get_post_meta(get_the_ID(), 'project_url', true),
-                'start_date' => get_post_meta(get_the_ID(), 'start_date', true),
-                'end_date' => get_post_meta(get_the_ID(), 'end_date', true),
-            );
+            ?>
+            <div class="col-md-4 col-6">
+                <?php get_template_part('templates/single-project-post-content'); ?>
+            </div>
+            <?php
         }
+        $output = ob_get_contents();
+        ob_clean();
     }
 
     wp_reset_postdata();
 
     // Return projects as JSON
-    wp_send_json_success($projects);
+    wp_send_json_success($output);
 }
 
 
@@ -359,9 +362,9 @@ class Bootstrap_Nav_Walker extends Walker_Nav_Menu
 
         $item_output = $args->before;
 
-            $item_output .= '<a' . $attributes . '>';
-            $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
-            $item_output .= '</a>';
+        $item_output .= '<a' . $attributes . '>';
+        $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+        $item_output .= '</a>';
         $item_output .= $args->after;
 
         $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
@@ -380,7 +383,6 @@ class Bootstrap_Nav_Walker extends Walker_Nav_Menu
         $output .= "$indent</ul>\n";
     }
 }
-
 
 
 //show admin bar in theme
