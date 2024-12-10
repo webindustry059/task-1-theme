@@ -21,7 +21,7 @@ function enqueue_script_js_file()
 {
 
     wp_register_script(
-        'theme-script',
+        'task-1-script',
         get_template_directory_uri() . '/assets/js/script.js',         array('jquery'),
         '1.0.0',
         true
@@ -29,7 +29,7 @@ function enqueue_script_js_file()
 
     // Enqueue the script on the front-end
     if (!is_admin()) {
-        wp_enqueue_script('theme-script');
+        wp_enqueue_script('task-1-script');
     }
 
     $arguments = array(
@@ -37,7 +37,7 @@ function enqueue_script_js_file()
         'nonce' => wp_create_nonce('search_projects_nonce'), // Nonce for security
     );
 
-    wp_localize_script('theme-script', 'search_projects_obj', $arguments);
+    wp_localize_script('task-1-script', 'search_projects_obj', $arguments);
 }
 
 add_action('wp_enqueue_scripts', 'enqueue_script_js_file');
@@ -168,7 +168,7 @@ function add_projects_archive_menu_item($items, $args) {
         $archive_item = new stdClass();
         $archive_item->ID = 0;
          $archive_item->db_id = 0;
-        $archive_item->title = 'All Projects';
+        $archive_item->title = esc_html__('All Projects', 'task_1_td');
         $archive_item->url = get_post_type_archive_link('projects');
         $archive_item->menu_order = count($items) + 1;
         $archive_item->post_parent = 0;
@@ -230,7 +230,7 @@ function get_projects_data($request)
     foreach ($projects as $project) {
         $data[] = array(
             'title' => $project->post_title,
-            'url' => get_post_meta($project->ID, 'project_url', true),
+            'project_url' => get_post_meta($project->ID, 'project_url', true),
             'start_date' => get_post_meta($project->ID, 'start_date', true),
             'end_date' => get_post_meta($project->ID, 'end_date', true),
         );
@@ -383,7 +383,7 @@ class Bootstrap_Nav_Walker extends Walker_Nav_Menu
 
 
 
-
+//show admin bar in theme
 function show_admin_bar_for_logged_in_users()
 {
     if (is_user_logged_in()) {

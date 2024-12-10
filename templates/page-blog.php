@@ -2,7 +2,7 @@
 /* Template Name: Blog */
 get_header(); ?>
 <main>
-    <h1 class="h1 text-center mt-3 mb-3"> Our Blog</h1>
+    <h1 class="h1 text-center mt-3 mb-3"> <?php echo esc_html__('Our Blog','task_1_td'); ?></h1>
     <div class="row mt-2 mb-2 ">
         <div class="col-12">
             <?php the_content(); ?>
@@ -19,22 +19,22 @@ get_header(); ?>
             while ($the_query->have_posts()) :
                 $the_query->the_post();
                 ?>
-                <div class="col-md-3 col-6">
+                <div class="col-md-4 col-6">
                     <div class="card">
                         <div class="card-title text-center">
                             <?php the_title('<h2>', '</h2>'); ?>
                         </div>
                         <div class="card-body">
                             <div class="task-dates">
-                                <strong>Date (From -To)</strong>
+                                <strong><?php echo esc_html__('Date (From - To):','task_1_td'); ?></strong>
                                 <p><?php echo get_post_meta(get_the_ID(), 'start_date', true); ?>
                                     - <?php echo get_post_meta(get_the_ID(), 'end_date', true); ?></p>
                             </div>
                             <div class="task-url">
-                                <strong>URL</strong>
-                                <a href="<?php echo esc_url(get_post_meta(get_the_ID(), 'project_url', true)); ?>"><?php echo get_post_meta(get_the_ID(), 'project_url', true); ?></a>
+                               <strong><?php echo esc_html__('Project Url:','task_1_td'); ?></strong>
+                               <a href="<?php echo esc_url(get_post_meta(get_the_ID(), 'project_url', true)); ?>"><?php echo get_post_meta(get_the_ID(), 'project_url', true); ?></a>
                             </div>
-                            <a href="<?php the_permalink();?>" class="btn btn-info"> View Project</a>
+                            <a href="<?php the_permalink();?>" class="btn btn-info mt-2"> <?php echo esc_html__('View Project','task_1_td'); ?></a>
                         </div>
                     </div>
                 </div>

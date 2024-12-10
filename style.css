@@ -19,6 +19,9 @@ Text Domain: task_1_td
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    overflow-x: hidden;
+}
 main{
     margin: auto 5px;
     padding: 0 5px;
@@ -53,5 +56,8 @@ main{
     left: 100%; /* Position submenus to the right */
     margin-left: 0.125rem;
 }
-
+.task-url{
+    display: flex;
+    flex-direction: column;
+}
 
