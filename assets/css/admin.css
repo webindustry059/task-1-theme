@@ -1,0 +1,21 @@
+/* Restore default WordPress admin background color */
+body {
+    background-color: #f3f4f6 !important;
+}
+
+/* Restore default admin text color */
+body, #wpwrap {
+    color: #32373c !important;
+}
+
+/* Fix button styles overridden by Bootstrap */
+.wp-core-ui .button {
+    background-color: #007cba !important;
+    border: none !important;
+    color: white !important;
+    text-shadow: none !important;
+}
+
+.wp-core-ui .button:hover {
+    background-color: #006799 !important;
+}

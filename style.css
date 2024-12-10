@@ -1,0 +1,57 @@
+/*
+Theme Name: Task-1 theme
+Theme URI: 
+Author: developers hub
+Author URI: https://wordpress.org
+Description: Custom theme
+Requires at least: 6.7
+Tested up to: 6.7
+Requires PHP: 7.2
+Version: 1.0
+License:
+License URI:
+Text Domain: task_1_td
+*/
+
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+main{
+    margin: auto 5px;
+    padding: 0 5px;
+}
+.task-description{
+    text-align: justify;
+}
+.search_project_div{
+    display: flex;
+    align-items: flex-end;
+}
+.search_project_main_div .form-group{
+    padding:7.5px;
+}
+
+
+/* to set multi level dropdowns*/
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.125rem;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%; /* Position submenus to the right */
+    margin-left: 0.125rem;
+}
+
+
