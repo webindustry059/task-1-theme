@@ -1,5 +1,3 @@
-
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />-->
  <?php wp_head(); ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">

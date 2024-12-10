@@ -105,6 +105,9 @@ function project_fields_callback($post)
     $start_date = get_post_meta($post->ID, 'start_date', true);
     $end_date = get_post_meta($post->ID, 'end_date', true);
     $project_url = get_post_meta($post->ID, 'project_url', true);
+
+    wp_nonce_field('projects_nonce_action','projects_nonce_field');
+
     ?>
         <div class="row">
             <div class="col-12 col-md-8">
@@ -125,6 +128,12 @@ function project_fields_callback($post)
 
 function save_project_meta($post_id)
 {
+    $projects_nonce_field=isset($_POST['projects_nonce_field']) ? sanitize_text_field(wp_unslash($_POST['projects_nonce_field'])) : '';
+
+    if(isset($_POST['projects_nonce_field']) && !wp_verify_nonce($projects_nonce_field,'projects_nonce_action')){
+        wp_die('Security Voilated');
+    }
+
     if (isset($_POST['start_date'])) {
         update_post_meta($post_id, 'start_date', sanitize_text_field($_POST['start_date']));
     }
@@ -138,15 +147,16 @@ function save_project_meta($post_id)
 
 add_action('save_post_projects', 'save_project_meta');
 
+//register header menu in theme
 
-function my_custom_menus()
+function theme_header_menu()
 {
     register_nav_menus(array(
         'header-menu' => 'Header Menu',
     ));
 }
 
-add_action('init', 'my_custom_menus');
+add_action('init', 'theme_header_menu');
 
 
 //Added Projects archive page in nav menu
@@ -190,14 +200,6 @@ endif;
 add_action('wp_enqueue_scripts', 'task_1_enqueue_bootstrap_function');
 add_action('admin_enqueue_scripts', 'task_1_enqueue_bootstrap_function');
 
-
-if (!function_exists('task_1_register_nav_menus')):
-    function task_1_register_nav_menus()
-    {
-        register_nav_menu('primary', 'Primary Menu');
-    }
-endif;
-add_action('after_setup_theme', 'task_1_register_nav_menus');
 
 
 //REST API to Fetch posts of post_type projects
@@ -307,13 +309,7 @@ function search_projects_callback() {
 }
 
 
-
-
-
-
-
-
-
+//using Bootstrap nav menu structure
 
 class Bootstrap_Nav_Walker extends Walker_Nav_Menu
 {
