@@ -10,38 +10,91 @@ Requires PHP: 7.2
 Version: 1.0
 License:
 License URI:
-Text Domain: task_1_td
+Text Domain: task-1-theme
 */
 
 
-*{
-    margin:0;
+* {
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 95vh; /* Ensure the body takes the full height of the viewport */
 }
-main{
+
+main {
+    flex: 1; /* Pushes the footer to the bottom */
     margin: auto 5px;
     padding: 0 5px;
 }
-.task-description{
+
+.task-description {
     text-align: justify;
 }
-.search_project_div{
+
+.search_project_div {
     display: flex;
     align-items: flex-end;
 }
-.search_project_main_div .form-group{
-    padding:7.5px;
+
+.search_project_main_div .form-group {
+    padding: 7.5px;
 }
 
 
 /* column align */
 
-.task-url{
+.task-url {
     display: flex;
     flex-direction: column;
 }
 
+
+.projects_content .projects_featured_image{
+    width:35%;
+}
+.projects_content .description_content{
+    width:65%;
+    padding-left: 15px;
+}
+.projects_content .task-description{
+        max-height: 130px;
+    overflow-y: auto;
+}
+.post_featured_image {
+    max-height: 190px;
+    overflow-y: hidden;
+}
+.featured_image
+{
+    max-height: 230px;
+    overflow-y: hidden;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+.projects_content{
+    flex-direction: column;
+}
+.projects_content .projects_featured_image,
+.projects_content .description_content{
+    width:100%;
+    padding-left: 15px;
+}
+    .projects_content .description_content{
+     margin-top: 10px;
+}
+.projects_content .task-description{
+
+        max-height: unset;
+    overflow-y: unset;
+}
+}

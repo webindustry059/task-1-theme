@@ -46,9 +46,46 @@ function my_custom_theme_setup()
 {
     add_theme_support('menus');
     add_theme_support('post-thumbnails');
+    add_theme_support('menus');
+    add_theme_support('title-tag');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('html5', array());
+    add_theme_support('custom-logo');
+    add_theme_support('custom-header');
+    add_theme_support('custom-background');
+    add_theme_support('responsive-embeds');
 }
 
 add_action('after_setup_theme', 'my_custom_theme_setup');
+
+add_shortcode('fetch_all_projects','fetch_all_projects_function');
+
+function fetch_all_projects_function(){
+ $the_query = new WP_Query(array('post_type' => 'projects', 'post_status' => 'publish'));
+    if ($the_query->have_posts()) : ?>
+        <div class="row p-3">
+            <!-- the loop -->
+            <?php
+            while ($the_query->have_posts()) :
+                $the_query->the_post();
+                ?>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <?php get_template_part('templates/single-project-post-content'); ?>
+                </div>
+            <?php endwhile; ?>
+        </div>
+        <!-- end of the loop -->
+
+        <!-- pagination here -->
+
+        <?php wp_reset_postdata(); ?>
+
+    <?php else : ?>
+        <p><?php echo esc_html__('Sorry, no projects are available','task-1-theme');  ?></p>
+    <?php endif;
+}
+
+
 
 
 // register custom post type projects
@@ -58,27 +95,27 @@ function create_projects_cpt()
 {
 
     $labels = array(
-        'name' => __('Projects', 'task_1_td'),
-        'singular_name' => __('Project', 'task_1_td'),
-        'add_new' => __('Add New Project', 'task_1_td'),
-        'add_new_item' => __('Add New Project', 'task_1_td'),
-        'edit_item' => __('Edit Project', 'task_1_td'),
-        'new_item' => __('New Project', 'task_1_td'),
-        'view_item' => __('View Project', 'task_1_td'),
-        'search_items' => __('Search Project', 'task_1_td'),
+        'name' => __('Projects', 'task-1-theme'),
+        'singular_name' => __('Project', 'task-1-theme'),
+        'add_new' => __('Add New Project', 'task-1-theme'),
+        'add_new_item' => __('Add New Project', 'task-1-theme'),
+        'edit_item' => __('Edit Project', 'task-1-theme'),
+        'new_item' => __('New Project', 'task-1-theme'),
+        'view_item' => __('View Project', 'task-1-theme'),
+        'search_items' => __('Search Project', 'task-1-theme'),
         'exclude_from_search' => true,
-        'not_found' => __('No Project found', 'task_1_td'),
-        'not_found_in_trash' => __('No Project found in trash', 'task_1_td'),
+        'not_found' => __('No Project found', 'task-1-theme'),
+        'not_found_in_trash' => __('No Project found in trash', 'task-1-theme'),
         'parent_item_colon' => '',
-        'all_items' => __('All Projects', 'task_1_td'),
-        'menu_name' => __('Projects', 'task_1_td'),
+        'all_items' => __('All Projects', 'task-1-theme'),
+        'menu_name' => __('Projects', 'task-1-theme'),
     );
 
     $args = array(
         'labels' => $labels,
         'public' => true,
         'has_archive' => true,
-        'supports' => array('title', 'editor'),
+        'supports' => array('title', 'editor','thumbnail'),
         'rewrite' => array('slug' => 'projects'),
         'publicly_queryable' => true,
         'show_ui' => true,
@@ -111,17 +148,17 @@ function project_fields_callback($post)
     ?>
     <div class="row">
         <div class="col-12 col-md-8">
-            <label class="label" for="start_date"><strong><?php echo esc_html__('Start Date:', 'task_1_td'); ?></strong></label>
+            <label class="label" for="start_date"><strong><?php echo esc_html__('Start Date:', 'task-1-theme'); ?></strong></label>
             <input type="date" name="start_date" class="form-control" value="<?php echo esc_attr($start_date); ?>">
         </div>
         <div class="col-12 col-md-8 mt-2">
             <label class="label"
-                   for="end_date"><strong><?php echo esc_html__('End Date:', 'task_1_td'); ?></strong></label>
+                   for="end_date"><strong><?php echo esc_html__('End Date:', 'task-1-theme'); ?></strong></label>
             <input type="date" name="end_date" class="form-control" value="<?php echo esc_attr($end_date); ?>">
         </div>
         <div class="col-12 col-md-8 mt-2">
             <label class="label"
-                   for="project_url"><strong><?php echo esc_html__('Project Url:', 'task_1_td'); ?></strong></label>
+                   for="project_url"><strong><?php echo esc_html__('Project Url:', 'task-1-theme'); ?></strong></label>
             <input type="url" name="project_url" class="form-control" value="<?php echo esc_url($project_url); ?>">
         </div>
     </div>
@@ -143,7 +180,7 @@ function save_project_meta($post_id)
         update_post_meta($post_id, 'end_date', sanitize_text_field($_POST['end_date']));
     }
     if (isset($_POST['project_url'])) {
-        update_post_meta($post_id, 'project_url', sanitize_url($_POST['project_url']));
+        update_post_meta($post_id, 'project_url', esc_url($_POST['project_url']));
     }
 }
 
@@ -171,7 +208,7 @@ function add_projects_archive_menu_item($items, $args)
         $archive_item = new stdClass();
         $archive_item->ID = 0;
         $archive_item->db_id = 0;
-        $archive_item->title = esc_html__('All Projects', 'task_1_td');
+        $archive_item->title = esc_html__('All Projects', 'task-1-theme');
         $archive_item->url = get_post_type_archive_link('projects');
         $archive_item->menu_order = count($items) + 1;
         $archive_item->post_parent = 0;
@@ -385,17 +422,6 @@ class Bootstrap_Nav_Walker extends Walker_Nav_Menu
 }
 
 
-//show admin bar in theme
-function show_admin_bar_for_logged_in_users()
-{
-    if (is_user_logged_in()) {
-        show_admin_bar(true);
-    } else {
-        show_admin_bar(false);
-    }
-}
-
-add_action('after_setup_theme', 'show_admin_bar_for_logged_in_users');
 
 
 ?>

@@ -2,7 +2,7 @@
 <?php
 get_header(); ?>
 <main>
-    <h1 class="h1 text-center">  <?php echo esc_html__(single_cat_title(),'task_1_td'); ?></h1>
+    <h1 class="h1 text-center">  <?php echo esc_html__(single_cat_title(),'task-1-theme'); ?></h1>
     <?php
     if (have_posts()) :
         ?>
@@ -14,13 +14,9 @@ get_header(); ?>
 
         while (have_posts()) : the_post();
                 ?>
-                <div class="col-md-4 col-6">
-                    <div class="card">
-                        <div class="card-title text-center">
-                               <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                        </div>
+                   <div class="col-md-4 col-6 text-center p-3">
+                    <?php get_template_part('templates/single-post-content'); ?>
                     </div>
-                </div>
             <?php endwhile; ?>
         </div>
         <!-- end of the loop -->
@@ -29,7 +25,7 @@ get_header(); ?>
         <?php wp_reset_postdata(); ?>
 
     <?php else : ?>
-        <p><?php echo esc_html__('Sorry, no posts are available to this category','task_1_td');  ?></p>
+        <p><?php echo esc_html__('Sorry, no posts are available to this category','task-1-theme');  ?></p>
     <?php endif; ?>
 </main>
 <?php get_footer(); ?>

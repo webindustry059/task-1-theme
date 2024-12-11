@@ -1,16 +1,11 @@
 <?php
-/* Template Name: Home page Template */
+/*  Home page */
 get_header(); ?>
-<main>
-    <h1 class="h1"><?php the_title(); ?></h1>
+<main class="text-center">
+    <h1 class="h1"><?php echo esc_html__('Home Page','task-1-theme'); ?></h1>
 
-    <div class="row mt-2 mb-2">
-        <div class="col-12">
-        <?php the_content(); ?>
-        </div>
-    </div>
     <div class="row justify-content-center">
-        <h2 class="h2"><?php echo esc_html__('Our Posts','task-1-theme'); ?></h2>
+        <h3 class="h3"><?php echo esc_html__('Our Posts','task-1-theme'); ?></h3>
   <?php
 
   $args = array(
@@ -25,8 +20,7 @@ $query = new WP_Query($args);
 if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post();
         ?>
-
-    <div class="col-md-4 col-6 text-center p-3">
+<div class="col-md-4 col-6 text-center p-3">
 <?php get_template_part('templates/single-post-content'); ?>
 </div>
         <?php
@@ -38,6 +32,6 @@ endif;
 ?>
     </div>
 
-
 </main>
 <?php get_footer(); ?>
+

@@ -1,6 +1,6 @@
 <!-- single post page for post type projects-->
 <?php get_header(); ?>
-<div id="main-content">
+<main id="main-content">
     <?php
     if (have_posts()) :
         while (have_posts()) : the_post();
@@ -16,19 +16,24 @@
                                 </h1>
                             </div>
                             <div class="card-body">
+                                <div class="projects_content d-flex">
+                                    <div class="projects_featured_image">
+                                        <img src="<?php echo esc_url(the_post_thumbnail_url(get_the_ID())); ?>" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="description_content">
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <tbody>
                                             <tr>
-                                                <th><?php echo esc_html__('Start Date:', 'task_1_td'); ?></th>
+                                                <th><?php echo esc_html__('Start Date:', 'task-1-theme'); ?></th>
                                                 <td><?php echo get_post_meta(get_the_ID(), 'start_date', true); ?></td>
                                             </tr>
                                             <tr>
-                                                <th><?php echo esc_html__('End Date:', 'task_1_td'); ?></th>
+                                                <th><?php echo esc_html__('End Date:', 'task-1-theme'); ?></th>
                                                 <td><?php echo get_post_meta(get_the_ID(), 'end_date', true); ?></td>
                                             </tr>
                                             <tr>
-                                                <th><?php echo esc_html__('Project Url:', 'task_1_td'); ?></th>
+                                                <th><?php echo esc_html__('Project Url:', 'task-1-theme'); ?></th>
                                                 <?php $project_url = get_post_meta(get_the_ID(), 'project_url', true); ?>
                                                 <td>
                                                     <a href="<?php echo esc_url($project_url); ?>"><?php echo esc_url($project_url); ?></a>
@@ -39,9 +44,11 @@
 
                                     </div>
                                     <div class="task-description">
-                                        <strong><?php echo esc_html__('Description:', 'task_1_td'); ?></strong>
+                                        <strong><?php echo esc_html__('Description:', 'task-1-theme'); ?></strong>
                                         <p><?php the_content(); ?></p>
                                     </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -53,7 +60,7 @@
         echo '<p>No content found.</p>';
     endif;
     ?>
-</div>
+</main>
 
 
 <?php get_footer(); ?>
